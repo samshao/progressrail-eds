@@ -3,8 +3,8 @@
  *
  * Authored structure (Hero convention, 1 column):
  *   Row 1 cell: background media — a poster <picture> plus, optionally, a link
- *               to a background video (…​.mp4). The importer preserves the video
- *               as a plain <a href="…​.mp4"> so the URL survives round-tripping.
+ *               to a background video (....mp4). The importer preserves the video
+ *               as a plain <a href="....mp4"> so the URL survives round-tripping.
  *   Row 2 cell: content — heading + CTA, overlaid on the media.
  *
  * decorate() upgrades a background-video link into an autoplaying, muted,
@@ -18,7 +18,7 @@ export default function decorate(block) {
     block.classList.add('no-image');
   }
 
-  // Find a background-video link (…​.mp4 / .webm / .ogv), if the author supplied one.
+  // Find a background-video link (....mp4 / .webm / .ogv), if the author supplied one.
   const videoLink = [...block.querySelectorAll(':scope > div:first-child a')]
     .find((a) => /\.(mp4|webm|ogv)(\?|$)/i.test(a.getAttribute('href') || ''));
 
