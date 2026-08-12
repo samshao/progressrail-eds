@@ -150,8 +150,9 @@ header .nav-brand {
 }
 
 header nav .nav-brand img {
-  width: 128px;
-  height: auto;
+  display: block;
+  width: auto;
+  height: 40px;
 }
 
 /* sections */
@@ -328,4 +329,38 @@ header nav .nav-tools a:any-link:hover {
   header nav .nav-sections .default-content-wrapper > ul > li > ul a:any-link:hover {
     color: var(--brand-yellow, #ffcd11);
   }
+}
+
+/* ===== Progress Rail two-row header (logo row + nav row) ===== */
+@media (width >= 900px) {
+  /* Two rows: logo on top, nav sections + Contact Us below — both on the
+     black bar. cols: sections take remaining space, tools hug the right. */
+  header nav {
+    display: grid;
+    grid-template:
+      'brand brand' auto
+      'sections tools' auto / 1fr auto;
+    align-items: center;
+    justify-content: unset;
+    gap: 12px 32px;
+    height: auto;
+    padding: 16px 32px;
+  }
+
+  header nav .nav-brand {
+    grid-area: brand;
+  }
+
+  header nav .nav-sections {
+    grid-area: sections;
+    align-self: center;
+  }
+
+  header nav .nav-tools {
+    grid-area: tools;
+    justify-self: end;
+  }
+
+  /* logo a touch larger on the dedicated top row */
+  header nav .nav-brand img { height: 48px; }
 }
