@@ -45,3 +45,22 @@
     padding: 40px 32px;
   }
 }
+
+/* Background video (from a .mp4 link, upgraded by pr-hero.js). Sits in the same
+   full-bleed layer as the poster <picture>, above it so it plays over the
+   poster; the poster remains the fallback if the video is removed on error. */
+.pr-hero .pr-hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* When a video is present, keep the poster picture as the underlying fallback
+   layer (one step further back). */
+.pr-hero.has-video picture {
+  z-index: -2;
+}
