@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "projectType": "doc"
+  },
+  "templates": [
+    {
+      "name": "progressrail-home",
+      "urls": [
+        "https://www.progressrail.com/en/"
+      ],
+      "representativeUrl": "https://www.progressrail.com/en/",
+      "coverageGaps": [],
+      "description": "Progress Rail homepage (itself built on AEM Edge Delivery). Sections: video/media hero with 'We Keep You Rolling' + CTA; a jump-nav strip (Featured / News & Events / Supply Chain / Gifts & Apparel + Contact Us); a 4-card featured grid (Careers, Sustainability, Community Outreach, Customer Service); a company intro + teaser block (PROGRESS RAIL intro paragraphs, Advanced Rail Technology promo, and a 2x grid of News & Events / Supply Chain / Values In Action / Gifts & Apparel promo cards).",
+      "blocks": [
+        {
+          "name": "pr-hero",
+          "instances": [
+            "div.section.hero-container:nth-of-type(1) div.hero.block:not(.teaser)"
+          ]
+        },
+        {
+          "name": "pr-jump-nav",
+          "instances": [
+            "div.jump-nav.block"
+          ]
+        },
+        {
+          "name": "pr-cards",
+          "instances": [
+            "div.cards.block"
+          ]
+        },
+        {
+          "name": "pr-teaser",
+          "instances": [
+            "div.hero.block.teaser"
+          ]
+        },
+        {
+          "name": "pr-columns",
+          "instances": [
+            "div.columns.block.cols-2"
+          ]
+        },
+        {
+          "name": "pr-video",
+          "instances": [
+            "div.video.block"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc2",
+          "name": "Media / Video Hero",
+          "selector": "body > main > div.section.hero-container:nth-of-type(1)",
+          "style": "dark",
+          "blocks": [
+            "pr-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc3",
+          "name": "Jump Navigation Strip",
+          "selector": "body > main > div.section.jump-nav-container",
+          "style": null,
+          "blocks": [
+            "pr-jump-nav"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc4",
+          "name": "Featured Cards Grid",
+          "selector": "#featured",
+          "style": null,
+          "blocks": [
+            "pr-cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc5",
+          "name": "Company Intro + Teaser + Promo Grid + Video",
+          "selector": "body > main > div.section.hero-container.columns-container.video-container.teaser",
+          "style": null,
+          "blocks": [
+            "pr-teaser",
+            "pr-columns",
+            "pr-video"
+          ],
+          "defaultContent": [
+            "body > main > div.section.hero-container.columns-container.video-container.teaser > div.default-content-wrapper"
+          ]
+        }
+      ]
+    }
+  ]
+}

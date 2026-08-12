@@ -1,0 +1,38 @@
+{
+  "variantName": "pr-cards",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-12T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.progressrail.com/en/",
+    "originPage": "Progress Rail homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + text + CTA",
+    "cardCount": 4,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured topic grids (image + title + short text + link)",
+      "equal-width card rows on a light background",
+      "navigation-style content tiles"
+    ],
+    "notSuitableFor": [
+      "text-only card grids (use cards no-images variant)",
+      "side-by-side alternating promo layouts (use pr-columns)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-12T00:00:00.000Z"
+  }
+}

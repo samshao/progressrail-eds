@@ -1,0 +1,38 @@
+{
+  "variantName": "pr-video",
+  "baseBlock": "video",
+  "version": "1.0.0",
+  "created": "2026-08-12T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.progressrail.com/en/",
+    "originPage": "Progress Rail homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "media",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "poster image + video URL (YouTube)",
+    "imageCount": 1,
+    "hasVideo": true
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "embedded YouTube/Vimeo video with a poster and play overlay",
+      "single stand-alone featured video",
+      "click-to-play media on content pages"
+    ],
+    "notSuitableFor": [
+      "background autoplay hero video (use pr-hero)",
+      "image galleries or carousels"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-12T00:00:00.000Z"
+  }
+}

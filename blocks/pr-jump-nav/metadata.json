@@ -1,0 +1,40 @@
+{
+  "variantName": "pr-jump-nav",
+  "baseBlock": "jump-nav",
+  "version": "1.0.0",
+  "created": "2026-08-12T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.progressrail.com/en/",
+    "originPage": "Progress Rail homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "navigation",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "list of anchor links + 1 CTA",
+    "linkCount": 4,
+    "buttonCount": 1,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "in-page anchor / jump navigation strips",
+      "horizontal section navigation bars with a right-aligned CTA",
+      "sticky page-level shortcut bars"
+    ],
+    "notSuitableFor": [
+      "site-wide header navigation (use header)",
+      "content card grids"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-12T00:00:00.000Z"
+  },
+  "note": "Custom block authored from scratch; no vanilla Block Collection equivalent exists for this jump-nav pattern."
+}

@@ -1,0 +1,38 @@
+{
+  "variantName": "pr-teaser",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-12T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.progressrail.com/en/",
+    "originPage": "Progress Rail homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "wide",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "background media + heading + text + 1 CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "in-page promotional teaser banners with body copy",
+      "feature callouts over a dark image background",
+      "mid-page highlight with heading, description and CTA"
+    ],
+    "notSuitableFor": [
+      "top-of-page full media hero (use pr-hero)",
+      "plain text sections"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-12T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,33 @@
+.pr-columns > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.pr-columns img {
+  width: 100%;
+}
+
+.pr-columns > div > div {
+  order: 1;
+}
+
+.pr-columns > div > .pr-columns-img-col {
+  order: 0;
+}
+
+.pr-columns > div > .pr-columns-img-col img {
+  display: block;
+}
+
+@media (width >= 900px) {
+  .pr-columns > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: 24px;
+  }
+
+  .pr-columns > div > div {
+    flex: 1;
+    order: unset;
+  }
+}
