@@ -1,6 +1,7 @@
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--background-color);
+  background-color: var(--brand-dark, #131313);
+  color: #fff;
   width: 100%;
   z-index: 2;
   position: fixed;
@@ -72,8 +73,8 @@ header nav .nav-hamburger button {
   border: 0;
   border-radius: 0;
   padding: 0;
-  background-color: var(--background-color);
-  color: inherit;
+  background-color: transparent;
+  color: #fff;
   overflow: initial;
   text-overflow: initial;
   white-space: initial;
@@ -269,4 +270,62 @@ header nav .nav-sections ul > li > ul > li {
 /* tools */
 header nav .nav-tools {
   grid-area: tools;
+}
+
+/* ===== Progress Rail header branding — black bar, white uppercase nav ===== */
+
+/* brand (text wordmark — no logo asset staged) */
+header .nav-brand a:any-link,
+header .nav-brand {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* top-level nav links: white, uppercase, condensed */
+header nav .nav-sections a:any-link,
+header nav .nav-sections .default-content-wrapper > ul > li {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+header nav .nav-sections a:any-link:hover {
+  color: var(--brand-yellow, #ffcd11);
+}
+
+/* the trailing "Contact Us" tools link → yellow CTA-ish, uppercase */
+/* stylelint-disable-next-line no-descending-specificity */
+header nav .nav-tools a:any-link {
+  color: var(--brand-yellow, #ffcd11);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+header nav .nav-tools a:any-link:hover {
+  color: #fff;
+}
+
+/* desktop dropdown panels: keep readable (dark text on white panel) */
+@media (width >= 900px) {
+  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
+    background-color: #fff;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul a:any-link {
+    color: var(--text-color, #131313);
+    text-transform: none;
+    font-weight: 400;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul a:any-link:hover {
+    color: var(--brand-yellow, #ffcd11);
+  }
 }
