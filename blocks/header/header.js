@@ -169,12 +169,16 @@ export default async function decorate(block) {
       if (navSection.querySelector('ul')) {
         navSection.classList.add('nav-drop');
         // chevron as a real icon next to the label (matching the source),
-        // not a CSS-drawn triangle crammed against the text
+        // not a CSS-drawn triangle crammed against the text. Inlined
+        // directly (rather than through decorateIcons' <img>) so its
+        // `currentColor` stroke tracks the label's hover color, the way
+        // the source's own inline chevron does.
         const label = navSection.querySelector('a') || navSection;
         const chevron = document.createElement('span');
         chevron.className = 'icon icon-chevron';
+        chevron.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false">'
+          + '<path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         label.append(chevron);
-        decorateIcons(navSection);
       }
       navSection.addEventListener('click', () => {
         if (isDesktop.matches) {
