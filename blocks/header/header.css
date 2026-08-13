@@ -212,28 +212,26 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections .nav-drop {
     position: relative;
-    padding-right: 16px;
     cursor: pointer;
   }
 
-  header nav .nav-sections .nav-drop::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0.5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
+  /* chevron icon sits inline with the label as a flex sibling (gap-
+     separated), matching the source, rather than a small CSS triangle
+     absolutely positioned against the text */
+  header nav .nav-sections .nav-drop a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 0.5em;
-    transform: rotate(315deg);
+  header nav .nav-sections .nav-drop .icon-chevron {
+    height: 10px;
+    width: 10px;
+    transition: transform 0.15s ease;
+  }
+
+  header nav .nav-sections .nav-drop[aria-expanded='true'] .icon-chevron {
+    transform: rotate(180deg);
   }
 
   header nav .nav-sections ul {
@@ -318,13 +316,14 @@ header .nav-brand {
   text-decoration: none;
 }
 
-/* top-level nav links: white, title case, condensed (source keeps these in
-   their authored casing — "Company", "Business Segments" — not uppercased) */
+/* top-level nav links: white, body font, regular weight, authored casing
+   ("Company", "Business Segments") — not the condensed heading font, and
+   not uppercased */
 header nav .nav-sections a:any-link,
 header nav .nav-sections .default-content-wrapper > ul > li {
   color: #fff;
-  font-family: var(--heading-font-family);
-  font-weight: 500;
+  font-family: var(--body-font-family);
+  font-weight: 400;
   font-size: 14px;
 }
 
@@ -332,9 +331,9 @@ header nav .nav-sections a:any-link:hover {
   color: var(--brand-yellow, #ffcd11);
 }
 
-/* language switcher links: plain white for both languages — the source
-   doesn't highlight the current one, and uses the body font, not the
-   condensed heading font used for the main nav links */
+/* language switcher links: plain white for both languages, same body
+   font/weight as the main nav links — the source doesn't highlight the
+   current language */
 /* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-language a:any-link {
   color: #fff;

@@ -166,7 +166,16 @@ export default async function decorate(block) {
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
+      if (navSection.querySelector('ul')) {
+        navSection.classList.add('nav-drop');
+        // chevron as a real icon next to the label (matching the source),
+        // not a CSS-drawn triangle crammed against the text
+        const label = navSection.querySelector('a') || navSection;
+        const chevron = document.createElement('span');
+        chevron.className = 'icon icon-chevron';
+        label.append(chevron);
+        decorateIcons(navSection);
+      }
       navSection.addEventListener('click', () => {
         if (isDesktop.matches) {
           const expanded = navSection.getAttribute('aria-expanded') === 'true';
