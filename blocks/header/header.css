@@ -286,6 +286,10 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
     padding: 8px 0;
   }
+
+  header nav .nav-sections .default-content-wrapper > ul > li:hover {
+    background-color: #555;
+  }
 }
 
 /* language switcher */
@@ -334,6 +338,7 @@ header nav .nav-sections .default-content-wrapper > ul > li {
 
 header nav .nav-sections a:any-link:hover {
   color: var(--brand-yellow, #ffcd11);
+  text-decoration: none;
 }
 
 /* language switcher links: plain white for both languages, same body
@@ -346,6 +351,10 @@ header nav .nav-language a:any-link {
   font-weight: 400;
   font-size: 14px;
   text-transform: uppercase;
+}
+
+header nav .nav-language a:any-link:hover {
+  text-decoration: none;
 }
 
 /* search box */
