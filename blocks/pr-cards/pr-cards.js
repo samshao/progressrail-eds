@@ -12,6 +12,22 @@ export default function decorate(block) {
       if (div.children.length === 1 && div.querySelector('picture')) div.className = 'pr-cards-card-image';
       else div.className = 'pr-cards-card-body';
     });
+
+    // split a trailing link-only paragraph (e.g. "Learn More") into its own
+    // footer, so it gets a divider + chevron instead of running into the body copy
+    const body = li.querySelector('.pr-cards-card-body');
+    const lastP = body && body.lastElementChild;
+    const lastLink = lastP && lastP.tagName === 'P' && lastP.querySelector('a');
+    if (lastLink && lastP.textContent.trim() === lastLink.textContent.trim()) {
+      // a plain <div>, not <footer> — the page's <footer> landmark styling
+      // (blocks/footer/footer.css) targets the bare footer tag and would
+      // otherwise bleed into every card
+      const footer = document.createElement('div');
+      footer.className = 'pr-cards-card-footer';
+      footer.append(lastP);
+      li.append(footer);
+    }
+
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => {

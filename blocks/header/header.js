@@ -1,4 +1,4 @@
-import { getMetadata } from '../../scripts/aem.js';
+import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 // media query match that indicates mobile/tablet width
@@ -124,7 +124,7 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
+  const classes = ['brand', 'sections', 'language'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
@@ -136,6 +136,32 @@ export default async function decorate(block) {
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
   }
+
+  // language switcher: mark the current language, add a globe icon
+  const navLanguage = nav.querySelector('.nav-language');
+  if (navLanguage) {
+    const current = navLanguage.querySelector(`a[href="/${document.documentElement.lang || 'en'}/"]`)
+      || navLanguage.querySelector('a');
+    if (current) current.setAttribute('aria-current', 'true');
+    const firstLink = navLanguage.querySelector('a');
+    if (firstLink) {
+      const globe = document.createElement('span');
+      globe.className = 'icon icon-globe';
+      firstLink.prepend(globe);
+      decorateIcons(navLanguage);
+    }
+  }
+
+  // search box (UI only — this project has no search backend to submit to)
+  const navSearch = document.createElement('div');
+  navSearch.className = 'nav-search';
+  navSearch.innerHTML = `<form role="search">
+      <input type="search" placeholder="Search" aria-label="Search">
+      <button type="submit" aria-label="Search"><span class="icon icon-search"></span></button>
+    </form>`;
+  navSearch.querySelector('form').addEventListener('submit', (e) => e.preventDefault());
+  decorateIcons(navSearch);
+  navBrand.after(navSearch);
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {

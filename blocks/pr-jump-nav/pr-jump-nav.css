@@ -1,5 +1,20 @@
 .pr-jump-nav {
   background-color: var(--background-color);
+  border-bottom: 1px solid var(--light-color);
+}
+
+/* `position: sticky` only holds an element within the height of its own
+   containing block — here that's just this one small section, so a plain
+   sticky rule would let go the moment that section scrolls past. The block
+   JS toggles `.is-stuck` (backed by an IntersectionObserver sentinel) to
+   fix it to the viewport for the rest of the page instead, using a spacer
+   to hold its place in the flow so nothing jumps. */
+.pr-jump-nav.is-stuck {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 .pr-jump-nav nav {
@@ -26,15 +41,23 @@
 }
 
 .pr-jump-nav nav ul li a {
+  display: inline-block;
   text-transform: uppercase;
   text-decoration: none;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--text-color);
+  padding-bottom: 6px;
+  border-bottom: 3px solid transparent;
 }
 
 .pr-jump-nav nav ul li a:hover {
-  text-decoration: underline;
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.pr-jump-nav nav ul li a.active {
+  border-bottom-color: var(--brand-yellow);
 }
 
 .pr-jump-nav nav .button-wrapper {
@@ -42,6 +65,12 @@
 }
 
 @media (width >= 900px) {
+  .pr-jump-nav.is-stuck {
+    /* header is in normal flow (not fixed) at this width, so the strip can
+       stick right at the viewport top once it scrolls under the header */
+    top: 0;
+  }
+
   .pr-jump-nav nav {
     padding: 12px 32px;
     flex-wrap: nowrap;

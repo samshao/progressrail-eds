@@ -4,44 +4,66 @@
 }
 
 .pr-teaser {
-  position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
-.pr-teaser h1,
-.pr-teaser h2,
-.pr-teaser h3,
-.pr-teaser h4,
-.pr-teaser h5,
-.pr-teaser h6,
-.pr-teaser p {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+.pr-teaser-media {
+  position: relative;
+  min-height: 220px;
+}
+
+.pr-teaser-media picture {
+  position: absolute;
+  inset: 0;
+}
+
+.pr-teaser-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pr-teaser-body {
+  box-sizing: border-box;
+  padding: 40px 24px;
+  background-color: var(--brand-dark);
   color: var(--background-color);
 }
 
-.pr-teaser.no-image * {
+.pr-teaser.no-image .pr-teaser-body {
+  background-color: var(--light-color);
   color: var(--text-color);
 }
 
-.pr-teaser picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
-}
-
-.pr-teaser img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+.pr-teaser-body h1,
+.pr-teaser-body h2,
+.pr-teaser-body h3,
+.pr-teaser-body h4,
+.pr-teaser-body h5,
+.pr-teaser-body h6,
+.pr-teaser-body p {
+  margin: 0.5em 0;
 }
 
 @media (width >= 900px) {
   .pr-teaser {
+    /* text panel first (visually left), image second (visually right) —
+       DOM order stays media-then-body so it reads sensibly without CSS */
+    flex-direction: row-reverse;
+  }
+
+  .pr-teaser-media {
+    flex: 1 1 60%;
+    min-height: 360px;
+  }
+
+  .pr-teaser-body {
+    flex: 0 0 40%;
+    max-width: 460px;
     padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }

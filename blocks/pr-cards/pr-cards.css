@@ -16,6 +16,38 @@
   margin: 16px;
 }
 
+.pr-cards .pr-cards-card-footer {
+  margin: 0 16px 16px;
+  border-top: 1px solid #dadada;
+}
+
+.pr-cards .pr-cards-card-footer p {
+  margin: 0;
+}
+
+.pr-cards .pr-cards-card-footer a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.pr-cards .pr-cards-card-footer a::after {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border: solid currentcolor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg);
+}
+
 .pr-cards .pr-cards-card-image {
   line-height: 0;
 }

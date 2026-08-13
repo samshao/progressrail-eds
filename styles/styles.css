@@ -289,6 +289,27 @@ main img {
   height: auto;
 }
 
+/* Progress Rail heading underline — a short yellow bar under section
+   headings in the hero, teaser, and default-content/columns areas (not
+   used on card headings). */
+.pr-hero h1::after,
+.pr-teaser h1::after,
+.pr-teaser h2::after,
+.pr-teaser h3::after,
+.pr-columns h1::after,
+.pr-columns h2::after,
+.pr-columns h3::after,
+.default-content-wrapper > h1::after,
+.default-content-wrapper > h2::after,
+.default-content-wrapper > h3::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin: 16px 0;
+  background-color: var(--brand-yellow);
+}
+
 .icon {
   display: inline-block;
   height: 24px;
