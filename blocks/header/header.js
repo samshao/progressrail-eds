@@ -171,13 +171,15 @@ export default async function decorate(block) {
         // chevron as a real icon next to the label (matching the source),
         // not a CSS-drawn triangle crammed against the text. Inlined
         // directly (rather than through decorateIcons' <img>) so its
-        // `currentColor` stroke tracks the label's hover color, the way
-        // the source's own inline chevron does.
+        // `currentColor` fill tracks the label's hover color, the way
+        // the source's own inline chevron does. Path data copied from the
+        // source's own chevron icon — a thin stroke-based caret reads
+        // noticeably smaller/thinner than this within the same box.
         const label = navSection.querySelector('a') || navSection;
         const chevron = document.createElement('span');
         chevron.className = 'icon icon-chevron';
         chevron.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false">'
-          + '<path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          + '<path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" d="M1.54977 4.69112C1.74503 4.49586 2.06161 4.49586 2.25687 4.69112L7.99999 10.4342L13.7431 4.69112C13.9384 4.49586 14.2549 4.49586 14.4502 4.69112C14.6455 4.88639 14.6455 5.20297 14.4502 5.39823L8.68639 11.162C8.5988 11.2535 8.49378 11.3266 8.37749 11.377C8.25832 11.4286 8.12985 11.4552 7.99999 11.4552C7.87013 11.4552 7.74165 11.4286 7.62248 11.377C7.50619 11.3266 7.40117 11.2535 7.31358 11.162L1.54977 5.39823C1.3545 5.20297 1.3545 4.88639 1.54977 4.69112Z"/></svg>';
         label.append(chevron);
       }
       navSection.addEventListener('click', () => {
