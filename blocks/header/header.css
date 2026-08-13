@@ -22,13 +22,19 @@ header nav {
   font-family: var(--body-font-family);
 }
 
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'language language' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
+/* full-screen mobile menu overlay (hamburger opened) — desktop never needs
+   this layout, but `aria-expanded` is also set 'true' at desktop widths
+   (it doubles as "no hamburger needed" there), so this must stay scoped to
+   mobile or it fights the desktop grid-template below at equal specificity */
+@media (width < 900px) {
+  header nav[aria-expanded='true'] {
+    grid-template:
+      'hamburger brand' var(--nav-height)
+      'sections sections' 1fr
+      'language language' var(--nav-height) / auto 1fr;
+    overflow-y: auto;
+    min-height: 100dvh;
+  }
 }
 
 /* search is desktop-only (no room for it in the mobile hamburger layout) */
@@ -315,15 +321,14 @@ header .nav-brand {
   text-decoration: none;
 }
 
-/* top-level nav links: white, uppercase, condensed */
+/* top-level nav links: white, title case, condensed (source keeps these in
+   their authored casing — "Company", "Business Segments" — not uppercased) */
 header nav .nav-sections a:any-link,
 header nav .nav-sections .default-content-wrapper > ul > li {
   color: #fff;
   font-family: var(--heading-font-family);
-  font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 header nav .nav-sections a:any-link:hover {
@@ -435,9 +440,7 @@ header nav .nav-search .icon {
     grid-area: search;
     display: block;
     visibility: visible;
-    justify-self: center;
     width: 100%;
-    max-width: 420px;
   }
 
   header nav .nav-sections {
