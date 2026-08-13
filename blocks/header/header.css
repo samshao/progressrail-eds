@@ -245,6 +245,11 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .default-content-wrapper > ul > li {
     flex: 0 1 auto;
     position: relative;
+
+    /* source gives each top-level item its own ~8px padding (a button hit
+       target), on top of the 8px flex gap — match that instead of relying
+       on the gap alone, which reads far tighter than the source */
+    padding: 8px;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li > ul {
@@ -290,17 +295,9 @@ header nav .nav-language ul {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   margin: 0;
   padding: 0;
-  font-size: 13px;
-}
-
-header nav .nav-language li + li::before {
-  content: '|';
-  margin-right: 8px;
-  color: currentcolor;
-  opacity: 0.5;
 }
 
 header nav .nav-language .icon {
@@ -335,17 +332,16 @@ header nav .nav-sections a:any-link:hover {
   color: var(--brand-yellow, #ffcd11);
 }
 
-/* language switcher links: white, current language marked yellow */
+/* language switcher links: plain white for both languages — the source
+   doesn't highlight the current one, and uses the body font, not the
+   condensed heading font used for the main nav links */
 /* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-language a:any-link {
   color: #fff;
-  font-weight: 500;
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-header nav .nav-language a[aria-current='true'] {
-  color: var(--brand-yellow, #ffcd11);
 }
 
 header nav .nav-language a:any-link:hover {
