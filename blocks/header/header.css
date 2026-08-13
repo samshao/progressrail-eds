@@ -238,7 +238,7 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: 8px;
     margin: 0;
   }
 
@@ -328,7 +328,7 @@ header nav .nav-sections .default-content-wrapper > ul > li {
   color: #fff;
   font-family: var(--heading-font-family);
   font-weight: 500;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 header nav .nav-sections a:any-link:hover {
@@ -417,14 +417,14 @@ header nav .nav-search .icon {
     height: auto;
   }
 
-  /* Two rows: logo + search + language on top, nav sections below — all on
-     the black bar. Row 1 cols: brand fixed, search flexible, language hugs
-     the right; row 2 (sections) spans the full width. */
+  /* Two rows: logo + search on top, nav sections + language below — all on
+     the black bar. Row 1: brand fixed, search fills the rest. Row 2: nav
+     links fill the rest, language switcher hugs the right. */
   header nav {
     display: grid;
     grid-template:
-      'brand search language' auto
-      'sections sections sections' auto / auto 1fr auto;
+      'brand search search' auto
+      'sections sections language' auto / auto 1fr auto;
     align-items: center;
     justify-content: unset;
     gap: 12px 32px;
@@ -450,7 +450,7 @@ header nav .nav-search .icon {
 
   header nav .nav-language {
     grid-area: language;
-    justify-self: end;
+    place-self: center end;
   }
 
   /* logo a touch larger on the dedicated top row */
