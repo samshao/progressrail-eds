@@ -2,11 +2,15 @@
    within the page's normal content column — it doesn't stretch to the
    viewport edges. No wrapper override needed here (unlike pr-hero/
    pr-jump-nav, which deliberately go full-bleed): the standard
-   `main > .section > div` max-width (1140px) already applies. */
+   `main > .section > div` max-width (1140px) already applies.
+   The black fallback here matches the source's block-level background —
+   visible for an instant before the image loads, or permanently on the
+   no-image variant's mobile media strip below. */
 .pr-teaser {
   display: flex;
   flex-direction: column;
   min-height: 220px;
+  background-color: #000;
 }
 
 .pr-teaser-media {
@@ -30,6 +34,10 @@
   padding: 24px;
   background-color: #000;
   color: var(--background-color);
+}
+
+.pr-teaser.no-image {
+  background-color: var(--light-color);
 }
 
 .pr-teaser.no-image .pr-teaser-body {
@@ -57,24 +65,54 @@
 }
 
 @media (width >= 900px) {
+  /* the split-panel layout gives way to a full-bleed image with the text
+     overlaid on top of it — see the getBoundingClientRect note in
+     pr-teaser.js. Taking media out of flow (position: absolute) leaves
+     body as the sole flex child, so it naturally lands left without
+     needing row-reverse. */
   .pr-teaser {
-    /* text panel first (visually left), image second (visually right) —
-       DOM order stays media-then-body so it reads sensibly without CSS */
-    flex-direction: row-reverse;
+    position: relative;
+    align-items: center;
     min-height: 325px;
   }
 
   .pr-teaser-media {
-    flex: 1 1 auto;
-    min-height: 325px;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    min-height: 0;
+  }
+
+  /* dark gradient standing in for the body panel's solid background —
+     stronger and less transparent than pr-hero's own (source measured:
+     opaque black vs. pr-hero's 85%, fading out further too — 93% vs.
+     pr-hero's 60%), since this panel's copy sits directly on the image
+     with no panel of its own underneath it. */
+  .pr-teaser::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to right, rgb(0 0 0 / 100%) 7%, rgb(0 0 0 / 0%) 93%);
+    pointer-events: none;
+  }
+
+  .pr-teaser.no-image::before {
+    display: none;
   }
 
   .pr-teaser-body {
-    flex: 0 0 auto;
+    position: relative;
+    z-index: 2;
     max-width: 488px;
     padding: 24px 64px;
+    background: transparent;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .pr-teaser.no-image .pr-teaser-body {
+    background: transparent;
   }
 }

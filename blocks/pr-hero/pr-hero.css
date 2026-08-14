@@ -43,6 +43,8 @@ main > .section.pr-hero-container {
 /* content is vertically centered in the media's height (not top-padded
    by a fixed offset) — a ~24px box, not the whole hero's padding */
 .pr-hero-body {
+  position: relative;
+  z-index: 2;
   box-sizing: border-box;
   width: 100%;
   padding: 24px;
@@ -68,6 +70,24 @@ main > .section.pr-hero-container {
 @media (width >= 900px) {
   .pr-hero-body {
     padding: 24px 32px;
+  }
+
+  /* dark left-to-right gradient standing in for a solid backdrop behind
+     the heading/CTA — source measured: 85% opaque black fading to fully
+     transparent by 60% of the hero's width, gated to the same >=900px
+     breakpoint as the source's own rule. .pr-teaser has its own, stronger
+     variant of this (see pr-teaser.css). */
+  .pr-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to right, rgb(0 0 0 / 85%) 7%, rgb(0 0 0 / 0%) 60%);
+    pointer-events: none;
+  }
+
+  .pr-hero.no-image::before {
+    display: none;
   }
 }
 
