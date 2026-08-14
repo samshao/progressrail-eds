@@ -3,32 +3,28 @@
    contrary to an earlier (wrong, unverified) assumption, this is NOT a
    dark/white-text footer — background is a flat #ccc throughout, and
    both the nav links and headings render in the page's own dark text
-   color, not white. */
+   color, not white.
+
+   The block itself is the grid container (verified: the source's own
+   `.footer.block` stacks its three sections — nav, social, copyright —
+   as named grid rows with a 24px row gap), so the three sections are
+   appended as its direct children in footer.js rather than nested in an
+   extra wrapper div. */
 footer .footer {
+  display: grid;
+  grid-template-areas: 'nav' 'social' 'copyright';
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px;
   background-color: #ccc;
   color: var(--text-color);
   font-size: 14px;
 }
 
-footer .footer > div {
-  /* matches the rest of the page's content column (verified via
-     getBoundingClientRect: the source's footer-nav is 1140px wide,
-     starting at the same left edge as every other section) — this was
-     still the boilerplate's own 1200px default, misaligning the whole
-     footer against the page above it. */
-  margin: auto;
-  max-width: 1140px;
-  padding: 32px 24px;
-}
-
 footer .footer p {
   margin: 0;
-}
-
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 32px;
-  }
 }
 
 /* links */
@@ -46,6 +42,10 @@ footer a:hover {
    accordion (collapsible on mobile, forced open and non-interactive at
    desktop via the media query below — matches the source, which does the
    same rather than using a heading + always-visible list). ===== */
+footer .footer-nav {
+  grid-area: nav;
+}
+
 footer .footer-nav .columns > div {
   display: grid;
   grid-template-columns: 1fr;
@@ -134,6 +134,10 @@ footer .footer-nav li {
 /* ===== social icon row — a second, icon-only rendering of the same
    links as the nav's own "Social Media" column (verified against the
    source: both exist side by side). ===== */
+footer .footer-social {
+  grid-area: social;
+}
+
 footer .footer-social ul {
   display: flex;
   flex-wrap: wrap;
@@ -167,7 +171,33 @@ footer .footer-social .icon svg {
 /* ===== legal / copyright row — a plain list, not a paragraph (the
    source's own markup), with a literal "|" separator generated between
    items rather than typed into the content, and its own blue link color
-   distinct from the rest of the footer's dark text. ===== */
+   distinct from the rest of the footer's dark text.
+
+   It also sits on a distinct white background, not the footer's own
+   gray — verified via getComputedStyle(el, '::after'): the source gives
+   this row a full-viewport-width white rectangle behind it (a
+   `calc(50% - 50vw)` full-bleed technique, escaping the footer's own
+   padded/centered column), extending from its own top edge down through
+   its 32px of padding-top plus another 32px below it. ===== */
+footer .footer-copyright {
+  grid-area: copyright;
+  position: relative;
+  isolation: isolate;
+  padding-top: 32px;
+  color: #2679b8;
+}
+
+footer .footer-copyright::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(50% - 50vw);
+  bottom: -32px;
+  z-index: -1;
+  width: 100vw;
+  background-color: var(--background-color);
+}
+
 footer .footer-copyright ul {
   display: flex;
   flex-wrap: wrap;
@@ -189,7 +219,7 @@ footer .footer-copyright li:not(:first-child)::before {
 
 footer .footer-copyright a,
 footer .footer-copyright button {
-  color: #2679b8;
+  color: inherit;
 }
 
 /* the cookie-preference control is a <button>, not a link — strip its

@@ -89,19 +89,22 @@ export default async function decorate(block) {
   const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
   const fragment = await loadFragment(footerPath);
 
-  // decorate footer DOM
+  // decorate footer DOM — the fragment's three sections (footer-nav,
+  // footer-social, footer-copyright) become direct children of the block
+  // itself, matching the source's own structure (no extra wrapper div;
+  // the block is the grid container — see footer.css) so its
+  // grid-template-areas can target each one directly.
   block.textContent = '';
-  const footer = document.createElement('div');
-  while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  while (fragment.firstElementChild) block.append(fragment.firstElementChild);
 
-  decorateNavAccordion(footer);
-  decorateSocialIcons(footer);
+  decorateNavAccordion(block);
+  decorateSocialIcons(block);
 
   // authored as a plain <a> (DA's content pipeline strips <button> from
   // default content) — swap it for a real button, matching the source,
   // which has no consent-management platform wired up here either, so
   // this stays a harmless no-op rather than a dead link
-  const cookieLink = footer.querySelector('#footer-cookie-settings');
+  const cookieLink = block.querySelector('#footer-cookie-settings');
   if (cookieLink) {
     const cookieButton = document.createElement('button');
     cookieButton.type = 'button';
@@ -109,6 +112,4 @@ export default async function decorate(block) {
     cookieButton.textContent = cookieLink.textContent;
     cookieLink.replaceWith(cookieButton);
   }
-
-  block.append(footer);
 }
