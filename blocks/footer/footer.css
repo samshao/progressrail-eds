@@ -11,8 +11,13 @@ footer .footer {
 }
 
 footer .footer > div {
+  /* matches the rest of the page's content column (verified via
+     getBoundingClientRect: the source's footer-nav is 1140px wide,
+     starting at the same left edge as every other section) — this was
+     still the boilerplate's own 1200px default, misaligning the whole
+     footer against the page above it. */
   margin: auto;
-  max-width: 1200px;
+  max-width: 1140px;
   padding: 32px 24px;
 }
 
