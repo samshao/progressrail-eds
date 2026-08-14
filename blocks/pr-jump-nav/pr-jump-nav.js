@@ -34,15 +34,23 @@ function setupSticky(block) {
   observer.observe(sentinel);
 }
 
+// Must match the `scroll-margin-top` given to headings/sections in
+// styles.css. A click-triggered anchor jump lands the target's top at
+// exactly this offset — if this threshold were any smaller (e.g. derived
+// from the sticky bar's own, shorter, height) the just-landed target
+// would never satisfy "has this section been passed?" immediately after
+// the click, and the previous link would stay active until the user
+// scrolled further. Keeping both in one place avoids that drift.
+const ANCHOR_SCROLL_OFFSET = 100;
+
 /**
  * Highlights the nav link whose target section is currently in view.
  * Tracked by scroll position rather than a narrow IntersectionObserver band,
  * since a fast scroll (flick, Page Down) can jump straight past a narrow
  * band between two animation frames and never register the crossing.
- * @param {Element} nav The <nav> element the jump-nav strip renders as
  * @param {Element[]} navLinks The jump-nav anchor elements
  */
-function setupScrollSpy(nav, navLinks) {
+function setupScrollSpy(navLinks) {
   const targets = navLinks
     .map((a) => {
       const { hash } = new URL(a.href, window.location.href);
@@ -59,12 +67,13 @@ function setupScrollSpy(nav, navLinks) {
   let ticking = false;
   const update = () => {
     ticking = false;
-    // the line a section's heading has to cross to count as "current" —
-    // just below the sticky strip itself
-    const line = nav.getBoundingClientRect().bottom + 1;
-    // the last target whose top has already crossed that line; falls back
-    // to the first jump link (e.g. "Featured") if none have yet
-    const current = targets.filter((t) => t.target.getBoundingClientRect().top <= line).pop();
+    // the last target whose top has already crossed the line; falls back
+    // to the first jump link (e.g. "Featured") if none have yet. A couple
+    // px of tolerance absorb the sub-pixel layout this page renders at —
+    // a target that just landed via scroll-margin-top can sit at e.g.
+    // 100.2px, a hair over an exact 100 threshold, and never register.
+    const passed = (t) => t.target.getBoundingClientRect().top <= ANCHOR_SCROLL_OFFSET + 2;
+    const current = targets.filter(passed).pop();
     setActive(current ? current.link : navLinks[0]);
   };
 
@@ -129,5 +138,5 @@ export default function decorate(block) {
   block.append(nav);
 
   setupSticky(block);
-  setupScrollSpy(nav, navLinks);
+  setupScrollSpy(navLinks);
 }
