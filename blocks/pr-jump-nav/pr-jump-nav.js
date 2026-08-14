@@ -34,13 +34,12 @@ function setupSticky(block) {
   observer.observe(sentinel);
 }
 
-// Must match the `scroll-margin-top` given to headings/sections in
+// Must be at most the `scroll-margin-top` given to headings/sections in
 // styles.css. A click-triggered anchor jump lands the target's top at
-// exactly this offset — if this threshold were any smaller (e.g. derived
-// from the sticky bar's own, shorter, height) the just-landed target
-// would never satisfy "has this section been passed?" immediately after
-// the click, and the previous link would stay active until the user
-// scrolled further. Keeping both in one place avoids that drift.
+// exactly that offset — this constant is the floor the "passed" line
+// can never go below, otherwise the just-landed target wouldn't satisfy
+// its own "has this section been passed?" check immediately after the
+// click, and the previous link would stay active until scrolled further.
 const ANCHOR_SCROLL_OFFSET = 100;
 
 /**
@@ -67,12 +66,16 @@ function setupScrollSpy(navLinks) {
   let ticking = false;
   const update = () => {
     ticking = false;
-    // the last target whose top has already crossed the line; falls back
-    // to the first jump link (e.g. "Featured") if none have yet. A couple
-    // px of tolerance absorb the sub-pixel layout this page renders at —
-    // a target that just landed via scroll-margin-top can sit at e.g.
-    // 100.2px, a hair over an exact 100 threshold, and never register.
-    const passed = (t) => t.target.getBoundingClientRect().top <= ANCHOR_SCROLL_OFFSET + 2;
+    // The "passed" line sits about a third down the viewport — not just
+    // past the sticky bar. A line pinned to the bar (e.g. ~100px) only
+    // reflects "did the click I just made land correctly"; for ordinary
+    // scrolling it leaves a huge dead zone where a section fills most of
+    // the screen but its heading hasn't crossed that narrow a line yet,
+    // so the *previous* section (long since scrolled out of view) stays
+    // marked active. +2px absorbs the sub-pixel layout this page renders
+    // at, so a target landing at e.g. 100.2px still counts as passed.
+    const line = Math.max(ANCHOR_SCROLL_OFFSET + 2, window.innerHeight * 0.35);
+    const passed = (t) => t.target.getBoundingClientRect().top <= line;
     const current = targets.filter(passed).pop();
     setActive(current ? current.link : navLinks[0]);
   };
