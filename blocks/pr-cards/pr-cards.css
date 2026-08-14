@@ -8,17 +8,55 @@
 }
 
 .pr-cards > ul > li {
-  border: 1px solid #dadada;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
   background-color: var(--background-color);
+  transition: box-shadow 0.2s ease;
 }
 
+.pr-cards > ul > li:hover {
+  box-shadow: 0 15px 40px rgb(67 72 92 / 20%);
+}
+
+.pr-cards .pr-cards-card-image {
+  line-height: 0;
+}
+
+.pr-cards > ul > li img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* grows to fill the card's remaining height, so the footer below it lands
+   on the same baseline across every card regardless of how much body
+   copy precedes it */
 .pr-cards .pr-cards-card-body {
-  margin: 16px;
+  flex: 1;
+  padding: 24px;
 }
 
+.pr-cards .pr-cards-card-body h2,
+.pr-cards .pr-cards-card-body h3 {
+  margin: 0 0 6.5px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pr-cards .pr-cards-card-body p {
+  margin: 11.2px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* no divider — just the link + chevron, bottom-aligned via the body's
+   flex:1 above */
 .pr-cards .pr-cards-card-footer {
-  margin: 0 16px 16px;
-  border-top: 1px solid #dadada;
+  padding: 0 24px 24px;
 }
 
 .pr-cards .pr-cards-card-footer p {
@@ -30,30 +68,20 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 12px 0;
+  color: var(--text-color);
   font-family: var(--heading-font-family);
-  font-size: var(--body-font-size-xs);
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
-.pr-cards .pr-cards-card-footer a::after {
-  content: '';
+.pr-cards .pr-cards-card-footer .icon-chevron {
   flex: none;
-  width: 8px;
-  height: 8px;
-  border: solid currentcolor;
-  border-width: 0 2px 2px 0;
-  transform: rotate(-45deg);
+  height: 14px;
+  width: 14px;
+  transform: rotate(-90deg);
 }
 
-.pr-cards .pr-cards-card-image {
-  line-height: 0;
-}
-
-.pr-cards > ul > li img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+.pr-cards .pr-cards-card-footer .icon-chevron svg {
+  display: block;
 }
