@@ -1,49 +1,126 @@
+/* full-bleed: the source's background/divider spans the full viewport
+   width, not just the standard 1200px content column — only the nav's
+   own content (below) is centered within that column */
+.pr-jump-nav-container .pr-jump-nav-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
 .pr-jump-nav {
   background-color: var(--background-color);
+  border-bottom: 1px solid #ccc;
+}
+
+/* the generic `main > .section { margin: 40px 0 }` rule exempts only the
+   first section (the hero) — the source has this strip sitting flush
+   against the hero with no gap at all, so exempt the section right after
+   it too (always this jump-nav, per the page's content model) */
+main > .section:first-of-type + .section:has(.pr-jump-nav) {
+  margin-top: 0;
+}
+
+/* `position: sticky` only holds an element within the height of its own
+   containing block — here that's just this one small section, so a plain
+   sticky rule would let go the moment that section scrolls past. The block
+   JS toggles `.is-stuck` (backed by an IntersectionObserver sentinel) to
+   fix it to the viewport for the rest of the page instead, using a spacer
+   to hold its place in the flow so nothing jumps. */
+.pr-jump-nav.is-stuck {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 .pr-jump-nav nav {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px 24px;
-  padding: 12px 24px;
+  min-height: 68px;
+  padding: 0 24px;
 }
 
+/* the link list grows to fill the row (pushing the CTA to the far right)
+   and centers its own links within that space — the source doesn't left-
+   align them */
 .pr-jump-nav nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px 24px;
+  justify-content: safe center;
+  gap: 0;
 }
 
 .pr-jump-nav nav ul li {
   margin: 0;
 }
 
+/* links are padded like buttons (matching the source's ~7px/16.8px), with
+   zero gap between them — the padding alone provides the spacing, and the
+   active-state bar spans the full padded width via ::after, not just the
+   text (a border-bottom on the inline text would only span the text) */
 .pr-jump-nav nav ul li a {
+  position: relative;
+  display: inline-block;
   text-transform: uppercase;
   text-decoration: none;
-  font-weight: 700;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 14px;
   letter-spacing: 0.02em;
   color: var(--text-color);
+  padding: 0.5em 1.2em;
+}
+
+.pr-jump-nav nav ul li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background-color: var(--brand-yellow);
+  opacity: 0;
 }
 
 .pr-jump-nav nav ul li a:hover {
-  text-decoration: underline;
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.pr-jump-nav nav ul li a.active::after {
+  opacity: 1;
 }
 
 .pr-jump-nav nav .button-wrapper {
   margin: 0;
 }
 
+/* unlike the in-content CTAs (hero, teaser, columns), the jump-nav's own
+   CTA sizes to its label rather than a uniform 200px */
+.pr-jump-nav nav .button.cta {
+  min-width: 0;
+}
+
 @media (width >= 900px) {
+  .pr-jump-nav.is-stuck {
+    /* header is in normal flow (not fixed) at this width, so the strip can
+       stick right at the viewport top once it scrolls under the header */
+    top: 0;
+  }
+
   .pr-jump-nav nav {
-    padding: 12px 32px;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 32px;
     flex-wrap: nowrap;
   }
 }

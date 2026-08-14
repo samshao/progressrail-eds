@@ -11,7 +11,7 @@ header nav {
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'hamburger brand tools' var(--nav-height)
+    'hamburger brand language' var(--nav-height)
     'sections sections sections' 1fr / auto 1fr auto;
   align-items: center;
   gap: 0 24px;
@@ -22,13 +22,25 @@ header nav {
   font-family: var(--body-font-family);
 }
 
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
+/* full-screen mobile menu overlay (hamburger opened) — desktop never needs
+   this layout, but `aria-expanded` is also set 'true' at desktop widths
+   (it doubles as "no hamburger needed" there), so this must stay scoped to
+   mobile or it fights the desktop grid-template below at equal specificity */
+@media (width < 900px) {
+  header nav[aria-expanded='true'] {
+    grid-template:
+      'hamburger brand' var(--nav-height)
+      'sections sections' 1fr
+      'language language' var(--nav-height) / auto 1fr;
+    overflow-y: auto;
+    min-height: 100dvh;
+  }
+}
+
+/* search is desktop-only (no room for it in the mobile hamburger layout) */
+header nav .nav-search {
+  display: none;
+  visibility: hidden;
 }
 
 @media (width >= 900px) {
@@ -200,39 +212,47 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections .nav-drop {
     position: relative;
-    padding-right: 16px;
     cursor: pointer;
   }
 
-  header nav .nav-sections .nav-drop::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0.5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
+  /* chevron icon sits inline with the label as a flex sibling (gap-
+     separated), matching the source, rather than a small CSS triangle
+     absolutely positioned against the text */
+  header nav .nav-sections .nav-drop a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 0.5em;
-    transform: rotate(315deg);
+  header nav .nav-sections .nav-drop .icon-chevron {
+    height: 14px;
+    width: 14px;
+    color: inherit;
+    transition: transform 0.15s ease;
+  }
+
+  header nav .nav-sections .nav-drop .icon-chevron svg {
+    display: block;
+  }
+
+  header nav .nav-sections .nav-drop[aria-expanded='true'] .icon-chevron {
+    transform: rotate(180deg);
   }
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: 8px;
     margin: 0;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li {
     flex: 0 1 auto;
     position: relative;
+
+    /* source gives each top-level item its own ~8px padding (a button hit
+       target), on top of the 8px flex gap — match that instead of relying
+       on the gap alone, which reads far tighter than the source */
+    padding: 8px;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li > ul {
@@ -266,11 +286,32 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
     padding: 8px 0;
   }
+
+  header nav .nav-sections .default-content-wrapper > ul > li:hover {
+    background-color: #555;
+  }
 }
 
-/* tools */
-header nav .nav-tools {
-  grid-area: tools;
+/* language switcher */
+header nav .nav-language {
+  grid-area: language;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+header nav .nav-language ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+header nav .nav-language .icon {
+  height: 14px;
+  width: 14px;
+  margin-right: 4px;
+  vertical-align: -2px;
 }
 
 /* ===== Progress Rail header branding — black bar, white uppercase nav ===== */
@@ -284,34 +325,79 @@ header .nav-brand {
   text-decoration: none;
 }
 
-/* top-level nav links: white, uppercase, condensed */
+/* top-level nav links: white, body font, regular weight, authored casing
+   ("Company", "Business Segments") — not the condensed heading font, and
+   not uppercased */
 header nav .nav-sections a:any-link,
 header nav .nav-sections .default-content-wrapper > ul > li {
   color: #fff;
-  font-family: var(--heading-font-family);
-  font-weight: 700;
+  font-family: var(--body-font-family);
+  font-weight: 400;
   font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+
+  /* the `header nav p { line-height: 1 }` rule above squashes these —
+     the source's nav links keep the body's normal (1.6) line-height,
+     which is most of where its taller nav row comes from */
+  line-height: 1.6;
 }
 
 header nav .nav-sections a:any-link:hover {
   color: var(--brand-yellow, #ffcd11);
-}
-
-/* the trailing "Contact Us" tools link → yellow CTA-ish, uppercase */
-/* stylelint-disable-next-line no-descending-specificity */
-header nav .nav-tools a:any-link {
-  color: var(--brand-yellow, #ffcd11);
-  font-family: var(--heading-font-family);
-  font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
   text-decoration: none;
 }
 
-header nav .nav-tools a:any-link:hover {
+/* language switcher links: plain white for both languages, same body
+   font/weight as the main nav links — the source doesn't highlight the
+   current language */
+/* stylelint-disable-next-line no-descending-specificity */
+header nav .nav-language a:any-link {
   color: #fff;
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+header nav .nav-language a:any-link:hover {
+  text-decoration: none;
+}
+
+/* search box */
+header nav .nav-search form {
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+}
+
+header nav .nav-search input[type='search'] {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: #fff;
+  appearance: none;
+}
+
+header nav .nav-search button {
+  flex: none;
+  width: 40px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--brand-yellow, #ffcd11);
+  color: var(--brand-dark, #131313);
+  cursor: pointer;
+}
+
+header nav .nav-search .icon {
+  height: 18px;
+  width: 18px;
 }
 
 /* desktop dropdown panels: keep readable (dark text on white panel) */
@@ -333,16 +419,25 @@ header nav .nav-tools a:any-link:hover {
 
 /* ===== Progress Rail two-row header (logo row + nav row) ===== */
 @media (width >= 900px) {
-  /* Two rows: logo on top, nav sections + Contact Us below — both on the
-     black bar. cols: sections take remaining space, tools hug the right. */
+  /* The boilerplate's global `header { height: var(--nav-height) }` assumes a
+     single nav row. This header renders two rows on desktop, so let it size
+     to its actual content — otherwise the nav overflows the header's box and
+     overlaps whatever section comes right after it. */
+  header {
+    height: auto;
+  }
+
+  /* Two rows: logo + search on top, nav sections + language below — all on
+     the black bar. Row 1: brand fixed, search fills the rest. Row 2: nav
+     links fill the rest, language switcher hugs the right. */
   header nav {
     display: grid;
     grid-template:
-      'brand brand' auto
-      'sections tools' auto / 1fr auto;
+      'brand search search' auto
+      'sections sections language' auto / auto 1fr auto;
     align-items: center;
     justify-content: unset;
-    gap: 12px 32px;
+    gap: 16px 32px;
     height: auto;
     padding: 16px 32px;
   }
@@ -351,16 +446,21 @@ header nav .nav-tools a:any-link:hover {
     grid-area: brand;
   }
 
+  header nav .nav-search {
+    grid-area: search;
+    display: block;
+    visibility: visible;
+    width: 100%;
+  }
+
   header nav .nav-sections {
     grid-area: sections;
     align-self: center;
   }
 
-  header nav .nav-tools {
-    grid-area: tools;
-    justify-self: end;
+  header nav .nav-language {
+    grid-area: language;
+    place-self: center end;
   }
 
-  /* logo a touch larger on the dedicated top row */
-  header nav .nav-brand img { height: 48px; }
 }

@@ -7,24 +7,31 @@
  *               as a plain <a href="....mp4"> so the URL survives round-tripping.
  *   Row 2 cell: content — heading + CTA, overlaid on the media.
  *
+ * The two rows are marked as distinct layers (media full-bleed behind,
+ * body centered on top) rather than left as plain divs, so the content
+ * can be vertically centered in the media's height instead of just
+ * top-padded — matching the source's layout.
+ *
  * decorate() upgrades a background-video link into an autoplaying, muted,
  * looping, inline <video> (using the poster image from the <picture>), matching
  * the source site's hero. If the video can't play, the poster remains visible.
  */
 export default function decorate(block) {
-  const mediaCell = block.querySelector(':scope > div:first-child > div') || block.querySelector(':scope > div:first-child');
+  const [mediaRow, bodyRow] = [...block.children];
+  if (mediaRow) mediaRow.className = 'pr-hero-media';
+  if (bodyRow) bodyRow.className = 'pr-hero-body';
 
-  if (!block.querySelector(':scope > div:first-child picture')) {
+  if (!block.querySelector(':scope > .pr-hero-media picture')) {
     block.classList.add('no-image');
   }
 
   // Find a background-video link (....mp4 / .webm / .ogv), if the author supplied one.
-  const videoLink = [...block.querySelectorAll(':scope > div:first-child a')]
+  const videoLink = mediaRow && [...mediaRow.querySelectorAll('a')]
     .find((a) => /\.(mp4|webm|ogv)(\?|$)/i.test(a.getAttribute('href') || ''));
 
-  if (videoLink && mediaCell) {
+  if (videoLink && mediaRow) {
     const src = videoLink.getAttribute('href');
-    const poster = block.querySelector(':scope > div:first-child picture img');
+    const poster = mediaRow.querySelector('picture img');
 
     const video = document.createElement('video');
     video.className = 'pr-hero-video';

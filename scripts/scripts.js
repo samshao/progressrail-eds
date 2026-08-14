@@ -126,19 +126,15 @@ function decorateButtons(main) {
     const em = a.closest('em');
     if (!strong && !em) return;
 
+    // Progress Rail uses a single CTA button style (Caterpillar yellow,
+    // a.button.cta — see styles.css) rather than the boilerplate's
+    // primary/secondary/accent variants, so any emphasis-wrapped link
+    // becomes a "cta" button.
     p.className = 'button-wrapper';
-    a.className = 'button';
-    if (strong && em) { // high-impact call-to-action
-      a.classList.add('accent');
-      const outer = strong.contains(em) ? strong : em;
-      outer.replaceWith(a);
-    } else if (strong) {
-      a.classList.add('primary');
-      strong.replaceWith(a);
-    } else {
-      a.classList.add('secondary');
-      em.replaceWith(a);
-    }
+    a.className = 'button cta';
+    let outer = strong || em;
+    if (strong && em) outer = strong.contains(em) ? strong : em;
+    outer.replaceWith(a);
   });
 }
 

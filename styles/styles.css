@@ -66,7 +66,7 @@
     --body-font-size-xs: 14px;
 
     /* heading sizes */
-    --heading-font-size-xxl: 45px;
+    --heading-font-size-xxl: 54px;
     --heading-font-size-xl: 36px;
     --heading-font-size-l: 28px;
     --heading-font-size-m: 22px;
@@ -114,10 +114,23 @@ h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
   line-height: 1.25;
-  scroll-margin: 40px;
+
+  /* clears the sticky pr-jump-nav strip (~69-93px depending on wrapping)
+     so an anchor-jump target isn't left hidden underneath it */
+  scroll-margin-top: 100px;
 }
 
-h1 { font-size: var(--heading-font-size-xxl); }
+h1 {
+  font-size: var(--heading-font-size-xxl);
+
+  /* the only h1 on the site is the hero heading — source uses a bolder
+     weight than the shared h1-h6 rule and no top margin (the hero's own
+     padding already provides the offset) */
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
 h4 { font-size: var(--heading-font-size-m); }
@@ -289,6 +302,60 @@ main img {
   height: auto;
 }
 
+/* Progress Rail heading underline — a short yellow bar under section
+   headings in the hero, teaser, and default-content/columns areas (not
+   used on card headings). */
+.pr-hero h1::after,
+.pr-teaser h1::after,
+.pr-teaser h2::after,
+.pr-teaser h3::after,
+.pr-columns h1::after,
+.pr-columns h2::after,
+.pr-columns h3::after,
+.default-content-wrapper > h1::after,
+.default-content-wrapper > h2::after,
+.default-content-wrapper > h3::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 5px;
+  margin: 16px 0 0;
+  background-color: var(--brand-yellow);
+}
+
+/* body-content headings/copy use a smaller, fixed scale, not the shared
+   h1-h6 scale sized for the hero — verified against the source: h2 is
+   26px everywhere in body content (default content, cards), h3 is 20px
+   in the columns headings, and paragraph copy is 14px throughout. */
+.default-content-wrapper > h2 {
+  margin-top: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.pr-columns h3 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.default-content-wrapper > p,
+.pr-columns p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* the source indents body copy under a default-content heading 35px on
+   both sides (not just visually left — verified via getComputedStyle,
+   all four paragraphs under "PROGRESS RAIL" measure margin: 35px
+   left/right), narrowing its effective max-width from 1140px to 1070px
+   to match. The heading itself is NOT indented. */
+.default-content-wrapper > p {
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
 .icon {
   display: inline-block;
   height: 24px;
@@ -302,17 +369,43 @@ main img {
 
 /* sections */
 main > .section {
-  margin: 40px 0;
+  /* verified against the source via getBoundingClientRect on every
+     section boundary (cards-container, the teaser/columns/video
+     container, and the gap before the footer): 64px, not the
+     boilerplate's 40px default. */
+  margin: 64px 0;
+
+  /* same reasoning as the heading rule above — covers jump-nav targets
+     that land directly on a section (e.g. #featured has no heading) */
+  scroll-margin-top: 100px;
 }
 
 main > .section > div {
-  max-width: 1200px;
+  /* matches the source's actual content column — verified directly
+     against several unrelated sections (default content, cards, teaser,
+     jump-nav), all measure exactly 1140px, not the boilerplate default */
+  max-width: 1140px;
   margin: auto;
   padding: 0 24px;
 }
 
 main > .section:first-of-type {
   margin-top: 0;
+}
+
+/* when a section stacks more than one block (e.g. the default-content +
+   pr-teaser + pr-columns + pr-video group), the source separates the
+   wrapper divs with their own top margin rather than relying on the
+   section's own padding — verified via getBoundingClientRect: every
+   wrapper-after-a-wrapper gets 32px, except straight after default
+   content, which gets a smaller 16.8px (matches that copy's own 1.2em
+   paragraph rhythm at its 14px font-size). */
+main > .section > [class$="-wrapper"] + [class$="-wrapper"] {
+  margin-top: 32px;
+}
+
+main > .section > .default-content-wrapper + [class$="-wrapper"] {
+  margin-top: 16.8px;
 }
 
 @media (width >= 900px) {
@@ -329,19 +422,30 @@ main .section.highlight {
   padding: 40px 0;
 }
 
-/* Progress Rail CTA button — Caterpillar yellow, square, condensed uppercase.
-   The source renders in-content CTAs as a.button.cta. */
+/* Progress Rail CTA button — Caterpillar yellow. The source renders
+   in-content CTAs as a.button.cta: a slightly-rounded pill, 14px regular
+   weight (its own size, not inherited from the surrounding copy), and
+   `capitalize` rather than a forced uppercase — authored text like
+   "Read More" keeps its own casing instead of becoming "READ MORE".
+   Every in-content CTA (hero, teaser, columns) is also a uniform 200px
+   wide regardless of label length, with the (shorter) label centered by
+   the shared .button rule's `justify-content: center` — the visible gap
+   either side of the text is well beyond what the 16.8px padding alone
+   gives you. The jump-nav's own CTA is the one exception (sizes to its
+   content) — see pr-jump-nav.css. */
 a.button.cta:any-link,
 button.button.cta {
-  border: 2px solid var(--brand-yellow);
-  border-radius: 0;
+  border: 1px solid var(--brand-yellow);
+  border-radius: 4px;
   background-color: var(--brand-yellow);
   color: var(--brand-dark);
   font-family: var(--heading-font-family);
-  font-weight: 700;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;
   letter-spacing: 0.3px;
-  padding: 0.6em 1.4em;
+  padding: 0.5em 1.2em;
+  min-width: 200px;
 }
 
 a.button.cta:hover,

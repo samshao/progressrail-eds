@@ -3,46 +3,91 @@
   padding: 0;
 }
 
-.pr-hero {
-  position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+/* the hero's own section already has margin-top: 0 (the boilerplate
+   exempts the first section), but margin-bottom is still the generic
+   40px — since sibling margins collapse to their max, that alone was
+   enough to leave a 40px gap before the jump-nav even after zeroing its
+   margin-top. The source has these flush against each other.
+   (needs main > .section.pr-hero-container, not just .pr-hero-container,
+   to out-specificity main > .section itself) */
+main > .section.pr-hero-container {
+  margin-bottom: 0;
 }
 
-.pr-hero h1,
-.pr-hero h2,
-.pr-hero h3,
-.pr-hero h4,
-.pr-hero h5,
-.pr-hero h6,
-.pr-hero p {
+.pr-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 350px;
+}
+
+.pr-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.pr-hero-media picture {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.pr-hero-media img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* content is vertically centered in the media's height (not top-padded
+   by a fixed offset) — a ~24px box, not the whole hero's padding */
+.pr-hero-body {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px;
+}
+
+.pr-hero-body h1,
+.pr-hero-body h2,
+.pr-hero-body h3,
+.pr-hero-body h4,
+.pr-hero-body h5,
+.pr-hero-body h6,
+.pr-hero-body p {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   color: var(--background-color);
 }
 
-.pr-hero.no-image * {
+.pr-hero.no-image .pr-hero-body * {
   color: var(--text-color);
 }
 
-.pr-hero picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
-}
-
-.pr-hero img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
 @media (width >= 900px) {
-  .pr-hero {
-    padding: 40px 32px;
+  .pr-hero-body {
+    padding: 24px 32px;
+  }
+
+  /* dark left-to-right gradient standing in for a solid backdrop behind
+     the heading/CTA — source measured: 85% opaque black fading to fully
+     transparent by 60% of the hero's width, gated to the same >=900px
+     breakpoint as the source's own rule. .pr-teaser has its own, stronger
+     variant of this (see pr-teaser.css). */
+  .pr-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to right, rgb(0 0 0 / 85%) 7%, rgb(0 0 0 / 0%) 60%);
+    pointer-events: none;
+  }
+
+  .pr-hero.no-image::before {
+    display: none;
   }
 }
 
@@ -61,6 +106,6 @@
 
 /* When a video is present, keep the poster picture as the underlying fallback
    layer (one step further back). */
-.pr-hero.has-video picture {
+.pr-hero.has-video .pr-hero-media picture {
   z-index: -2;
 }
