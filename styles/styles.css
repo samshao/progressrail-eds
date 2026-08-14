@@ -346,6 +346,16 @@ main img {
   line-height: 1.6;
 }
 
+/* the source indents body copy under a default-content heading 35px on
+   both sides (not just visually left — verified via getComputedStyle,
+   all four paragraphs under "PROGRESS RAIL" measure margin: 35px
+   left/right), narrowing its effective max-width from 1140px to 1070px
+   to match. The heading itself is NOT indented. */
+.default-content-wrapper > p {
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
 .icon {
   display: inline-block;
   height: 24px;
