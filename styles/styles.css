@@ -393,6 +393,21 @@ main > .section:first-of-type {
   margin-top: 0;
 }
 
+/* when a section stacks more than one block (e.g. the default-content +
+   pr-teaser + pr-columns + pr-video group), the source separates the
+   wrapper divs with their own top margin rather than relying on the
+   section's own padding — verified via getBoundingClientRect: every
+   wrapper-after-a-wrapper gets 32px, except straight after default
+   content, which gets a smaller 16.8px (matches that copy's own 1.2em
+   paragraph rhythm at its 14px font-size). */
+main > .section > [class$="-wrapper"] + [class$="-wrapper"] {
+  margin-top: 32px;
+}
+
+main > .section > .default-content-wrapper + [class$="-wrapper"] {
+  margin-top: 16.8px;
+}
+
 @media (width >= 900px) {
   main > .section > div {
     padding: 0 32px;
