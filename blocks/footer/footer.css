@@ -5,7 +5,16 @@
    both the nav links and headings render in the page's own dark text
    color, not white.
 
-   The block itself is the grid container (verified: the source's own
+   The gray lives on the outer <footer> element (full viewport width),
+   not on the block itself — verified via getBoundingClientRect: the
+   source's own outer footer wrapper spans the full 1600px viewport with
+   the gray background, while its inner `.footer.block` (background:
+   transparent) is just the centered/padded 1140px content column. */
+footer {
+  background-color: #ccc;
+}
+
+/* the block itself is the grid container (verified: the source's own
    `.footer.block` stacks its three sections — nav, social, copyright —
    as named grid rows with a 24px row gap), so the three sections are
    appended as its direct children in footer.js rather than nested in an
@@ -18,7 +27,6 @@ footer .footer {
   max-width: 1140px;
   margin: 0 auto;
   padding: 32px;
-  background-color: #ccc;
   color: var(--text-color);
   font-size: 14px;
 }
@@ -201,6 +209,7 @@ footer .footer-copyright::after {
 footer .footer-copyright ul {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   list-style: none;
   margin: 0;
   padding: 0;
