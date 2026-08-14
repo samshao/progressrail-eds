@@ -74,7 +74,15 @@ function setupScrollSpy(navLinks) {
     // so the *previous* section (long since scrolled out of view) stays
     // marked active. +2px absorbs the sub-pixel layout this page renders
     // at, so a target landing at e.g. 100.2px still counts as passed.
-    const line = Math.max(ANCHOR_SCROLL_OFFSET + 2, window.innerHeight * 0.35);
+    //
+    // Capped at 260px: on a tall enough viewport, 35% of it exceeds the
+    // ~314px gap between two of the page's own jump-nav targets (the
+    // "News & Events"/"Supply Chain" pr-columns rows) — reproduced with
+    // a 1250px-tall viewport, where a 437.5px line left both targets
+    // simultaneously "passed", and `.pop()` picked the later (wrong) one.
+    // 260px stays safely under every real inter-target gap on this page
+    // while still comfortably clearing the original dead-zone floor.
+    const line = Math.min(Math.max(ANCHOR_SCROLL_OFFSET + 2, window.innerHeight * 0.35), 260);
     const passed = (t) => t.target.getBoundingClientRect().top <= line;
     const current = targets.filter(passed).pop();
     setActive(current ? current.link : navLinks[0]);
