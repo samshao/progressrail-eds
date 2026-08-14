@@ -13,10 +13,34 @@
 
 .pr-columns > div > .pr-columns-img-col {
   order: 0;
+  position: relative;
+  overflow: hidden;
+  min-height: 184px;
 }
 
+/* absolutely positioned so the picture can't inflate the column's own
+   natural height — verified against the source: without this, the
+   percentage height below can't resolve during the grid's row-sizing
+   pass (the row's height is what's being computed), so the browser
+   falls back to the image's own aspect ratio, which made every row as
+   tall as its tallest *image* rather than the fixed 314px floor the
+   source actually uses. */
+.pr-columns > div > .pr-columns-img-col picture {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+}
+
+/* fills (and crops to) whatever height the column ends up at, rather
+   than the image's own natural aspect ratio dictating the row's height —
+   verified against the source: object-fit was defaulting to `fill`
+   (distorting the image) since neither height nor object-fit had been
+   set at all here before. */
 .pr-columns > div > .pr-columns-img-col img {
   display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 @media (width >= 900px) {
@@ -30,12 +54,22 @@
   .pr-columns > div {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: center;
   }
 
   .pr-columns > div > div {
     order: unset;
     min-width: 0;
+  }
+
+  /* no align-items override — grid's default `stretch` is what the
+     source relies on: whichever column is naturally taller (usually the
+     text column's padded content) sets the row's height, and the image
+     column (min-height below is a floor, not a fixed height) stretches
+     to match it, cropped via object-fit: cover above. An explicit
+     `center` here would leave the image pinned to its own min-height
+     instead of filling the taller row. */
+  .pr-columns > div > .pr-columns-img-col {
+    min-height: 314px;
   }
 
   /* the source gives the text column its own 64px padding on every side
