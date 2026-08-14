@@ -20,14 +20,22 @@
 }
 
 @media (width >= 900px) {
+  /* a true 50/50 grid, not flex:1 on both columns — verified via
+     getBoundingClientRect that the source's image and text columns are
+     always exactly equal halves (570px each of a 1140px row). flex:1 on
+     both looked equal in principle but the text column's own min-content
+     width (its longest unbreakable word/heading) forced the flex
+     algorithm to over-allocate it space at the image column's expense
+     once the 64px padding above was added. */
   .pr-columns > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    flex-direction: unset;
   }
 
   .pr-columns > div > div {
-    flex: 1;
     order: unset;
+    min-width: 0;
   }
 
   /* the source gives the text column its own 64px padding on every side
