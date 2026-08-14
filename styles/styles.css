@@ -369,7 +369,11 @@ main img {
 
 /* sections */
 main > .section {
-  margin: 40px 0;
+  /* verified against the source via getBoundingClientRect on every
+     section boundary (cards-container, the teaser/columns/video
+     container, and the gap before the footer): 64px, not the
+     boilerplate's 40px default. */
+  margin: 64px 0;
 
   /* same reasoning as the heading rule above — covers jump-nav targets
      that land directly on a section (e.g. #featured has no heading) */
