@@ -23,11 +23,21 @@
   .pr-columns > div {
     align-items: center;
     flex-direction: unset;
-    gap: 24px;
   }
 
   .pr-columns > div > div {
     flex: 1;
     order: unset;
+  }
+
+  /* the source gives the text column its own 64px padding on every side
+     (not a gap between it and the image) — verified via
+     getBoundingClientRect on both a picture-first row (News & Events)
+     and a text-first one (Supply Chain): the same uniform padding
+     applies regardless of which side the text sits on. Previously this
+     column had no padding at all (just a 24px inter-column gap), so text
+     sat flush against the image with barely any breathing room. */
+  .pr-columns > div > div:not(.pr-columns-img-col) {
+    padding: 64px;
   }
 }
