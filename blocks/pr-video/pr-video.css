@@ -1,7 +1,14 @@
+/* the source uses the same reading-width constraint here as the
+   default-content paragraphs (a 1070px --content-width, distinct from
+   the wider 1140px section column) rather than the boilerplate's own
+   900px default — verified via getComputedStyle: .video's max-width
+   resolves to the same 1070px. margin-top is 0, not 24px — vertical
+   spacing between this and the columns block above it is already
+   handled by the generic wrapper-to-wrapper rule in styles.css. */
 .pr-video {
   text-align: center;
-  max-width: 900px;
-  margin: 24px auto;
+  max-width: 1070px;
+  margin: 0 auto;
 }
 
 .pr-video[data-embed-loaded='false']:not(.placeholder) {
