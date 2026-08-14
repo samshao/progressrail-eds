@@ -71,8 +71,14 @@
      body as the sole flex child, so it naturally lands left without
      needing row-reverse. */
   .pr-teaser {
+    /* flex-direction stays column (inherited from the base rule), so
+       centering the body panel vertically within the teaser's height
+       takes justify-content, not align-items — align-items is the cross
+       (horizontal) axis here and would center the panel horizontally
+       instead of pinning it to the left like the source. */
     position: relative;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
     min-height: 325px;
   }
 
