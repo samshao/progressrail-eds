@@ -1,11 +1,14 @@
+/* unlike the hero (genuinely full-bleed), the source keeps this teaser
+   within the page's normal content column (1140px) — it doesn't stretch
+   to the viewport edges */
 .pr-teaser-container .pr-teaser-wrapper {
-  max-width: unset;
-  padding: 0;
+  max-width: 1140px;
 }
 
 .pr-teaser {
   display: flex;
   flex-direction: column;
+  min-height: 220px;
 }
 
 .pr-teaser-media {
@@ -26,8 +29,8 @@
 
 .pr-teaser-body {
   box-sizing: border-box;
-  padding: 40px 24px;
-  background-color: var(--brand-dark);
+  padding: 24px;
+  background-color: #000;
   color: var(--background-color);
 }
 
@@ -41,9 +44,18 @@
 .pr-teaser-body h3,
 .pr-teaser-body h4,
 .pr-teaser-body h5,
-.pr-teaser-body h6,
+.pr-teaser-body h6 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
 .pr-teaser-body p {
-  margin: 0.5em 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 @media (width >= 900px) {
@@ -51,17 +63,18 @@
     /* text panel first (visually left), image second (visually right) —
        DOM order stays media-then-body so it reads sensibly without CSS */
     flex-direction: row-reverse;
+    min-height: 325px;
   }
 
   .pr-teaser-media {
-    flex: 1 1 60%;
-    min-height: 360px;
+    flex: 1 1 auto;
+    min-height: 325px;
   }
 
   .pr-teaser-body {
-    flex: 0 0 40%;
-    max-width: 460px;
-    padding: 40px 32px;
+    flex: 0 0 auto;
+    max-width: 488px;
+    padding: 24px 64px;
     display: flex;
     flex-direction: column;
     justify-content: center;
