@@ -26,29 +26,51 @@
   padding: 12px 24px;
 }
 
+/* the link list grows to fill the row (pushing the CTA to the far right)
+   and centers its own links within that space — the source doesn't left-
+   align them */
 .pr-jump-nav nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px 24px;
+  justify-content: safe center;
+  gap: 0;
 }
 
 .pr-jump-nav nav ul li {
   margin: 0;
 }
 
+/* links are padded like buttons (matching the source's ~7px/16.8px), with
+   zero gap between them — the padding alone provides the spacing, and the
+   active-state bar spans the full padded width via ::after, not just the
+   text (a border-bottom on the inline text would only span the text) */
 .pr-jump-nav nav ul li a {
+  position: relative;
   display: inline-block;
   text-transform: uppercase;
   text-decoration: none;
-  font-weight: 700;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 14px;
   letter-spacing: 0.02em;
   color: var(--text-color);
-  padding-bottom: 6px;
-  border-bottom: 3px solid transparent;
+  padding: 0.5em 1.2em;
+}
+
+.pr-jump-nav nav ul li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background-color: var(--brand-yellow);
+  opacity: 0;
 }
 
 .pr-jump-nav nav ul li a:hover {
@@ -56,8 +78,8 @@
   text-decoration: none;
 }
 
-.pr-jump-nav nav ul li a.active {
-  border-bottom-color: var(--brand-yellow);
+.pr-jump-nav nav ul li a.active::after {
+  opacity: 1;
 }
 
 .pr-jump-nav nav .button-wrapper {
