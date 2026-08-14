@@ -364,7 +364,13 @@ main .section.highlight {
    in-content CTAs as a.button.cta: a slightly-rounded pill, 14px regular
    weight (its own size, not inherited from the surrounding copy), and
    `capitalize` rather than a forced uppercase — authored text like
-   "Read More" keeps its own casing instead of becoming "READ MORE". */
+   "Read More" keeps its own casing instead of becoming "READ MORE".
+   Every in-content CTA (hero, teaser, columns) is also a uniform 200px
+   wide regardless of label length, with the (shorter) label centered by
+   the shared .button rule's `justify-content: center` — the visible gap
+   either side of the text is well beyond what the 16.8px padding alone
+   gives you. The jump-nav's own CTA is the one exception (sizes to its
+   content) — see pr-jump-nav.css. */
 a.button.cta:any-link,
 button.button.cta {
   border: 1px solid var(--brand-yellow);
@@ -377,6 +383,7 @@ button.button.cta {
   text-transform: capitalize;
   letter-spacing: 0.3px;
   padding: 0.5em 1.2em;
+  min-width: 200px;
 }
 
 a.button.cta:hover,
