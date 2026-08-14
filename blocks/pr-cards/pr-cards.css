@@ -63,10 +63,12 @@
   margin: 0;
 }
 
+/* inline-flex, not flex+space-between — the source sizes this to its own
+   content (text + chevron), sitting flush-left with empty space to its
+   right, not stretched to push the chevron out to the card's edge */
 .pr-cards .pr-cards-card-footer a {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   color: var(--text-color);
   font-family: var(--heading-font-family);
