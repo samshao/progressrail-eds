@@ -2,6 +2,13 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
+  // the "Featured" jump-nav link targets this section directly — there's
+  // no heading here to auto-generate an id from (matching the source,
+  // which sets the id on the section itself rather than adding a
+  // visible heading)
+  const section = block.closest('.section');
+  if (section && !section.id) section.id = 'featured';
+
   /* change to ul, li */
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {

@@ -114,7 +114,10 @@ h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
   line-height: 1.25;
-  scroll-margin: 40px;
+
+  /* clears the sticky pr-jump-nav strip (~69-93px depending on wrapping)
+     so an anchor-jump target isn't left hidden underneath it */
+  scroll-margin-top: 100px;
 }
 
 h1 {
@@ -334,6 +337,10 @@ main img {
 /* sections */
 main > .section {
   margin: 40px 0;
+
+  /* same reasoning as the heading rule above — covers jump-nav targets
+     that land directly on a section (e.g. #featured has no heading) */
+  scroll-margin-top: 100px;
 }
 
 main > .section > div {
