@@ -3,6 +3,17 @@
   padding: 0;
 }
 
+/* the hero's own section already has margin-top: 0 (the boilerplate
+   exempts the first section), but margin-bottom is still the generic
+   40px — since sibling margins collapse to their max, that alone was
+   enough to leave a 40px gap before the jump-nav even after zeroing its
+   margin-top. The source has these flush against each other.
+   (needs main > .section.pr-hero-container, not just .pr-hero-container,
+   to out-specificity main > .section itself) */
+main > .section.pr-hero-container {
+  margin-bottom: 0;
+}
+
 .pr-hero {
   position: relative;
   display: flex;

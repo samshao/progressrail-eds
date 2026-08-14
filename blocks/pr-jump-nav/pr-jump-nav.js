@@ -92,6 +92,20 @@ export default function decorate(block) {
 
   const navLinks = links.filter((a) => a !== cta);
 
+  // The authored hrefs carry the source's own path convention (e.g.
+  // "/en/#featured", trailing slash), which may not match how this page
+  // is actually served (e.g. "/en", no trailing slash) — clicking would
+  // navigate to a different, likely-404ing path instead of just jumping
+  // to the anchor on the current page. Normalize same-page anchors to
+  // the page's real path.
+  navLinks.forEach((a) => {
+    try {
+      const url = new URL(a.getAttribute('href'), window.location.href);
+      const samePage = url.pathname.replace(/\/$/, '') === window.location.pathname.replace(/\/$/, '');
+      if (url.hash && samePage) a.href = window.location.pathname + url.hash;
+    } catch { /* malformed href — leave it alone */ }
+  });
+
   const nav = document.createElement('nav');
   nav.setAttribute('aria-label', 'Jump navigation');
 

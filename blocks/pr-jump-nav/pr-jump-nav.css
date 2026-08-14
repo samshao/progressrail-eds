@@ -3,6 +3,14 @@
   border-bottom: 1px solid var(--light-color);
 }
 
+/* the generic `main > .section { margin: 40px 0 }` rule exempts only the
+   first section (the hero) — the source has this strip sitting flush
+   against the hero with no gap at all, so exempt the section right after
+   it too (always this jump-nav, per the page's content model) */
+main > .section:first-of-type + .section:has(.pr-jump-nav) {
+  margin-top: 0;
+}
+
 /* `position: sticky` only holds an element within the height of its own
    containing block — here that's just this one small section, so a plain
    sticky rule would let go the moment that section scrolls past. The block
@@ -18,12 +26,14 @@
 }
 
 .pr-jump-nav nav {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px 24px;
-  padding: 12px 24px;
+  min-height: 68px;
+  padding: 0 24px;
 }
 
 /* the link list grows to fill the row (pushing the CTA to the far right)
@@ -100,7 +110,7 @@
   }
 
   .pr-jump-nav nav {
-    padding: 12px 32px;
+    padding: 0 32px;
     flex-wrap: nowrap;
   }
 }
