@@ -334,6 +334,11 @@ header nav .nav-sections .default-content-wrapper > ul > li {
   font-family: var(--body-font-family);
   font-weight: 400;
   font-size: 14px;
+
+  /* the `header nav p { line-height: 1 }` rule above squashes these —
+     the source's nav links keep the body's normal (1.6) line-height,
+     which is most of where its taller nav row comes from */
+  line-height: 1.6;
 }
 
 header nav .nav-sections a:any-link:hover {
@@ -432,7 +437,7 @@ header nav .nav-search .icon {
       'sections sections language' auto / auto 1fr auto;
     align-items: center;
     justify-content: unset;
-    gap: 12px 32px;
+    gap: 16px 32px;
     height: auto;
     padding: 16px 32px;
   }
