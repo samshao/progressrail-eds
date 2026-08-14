@@ -318,9 +318,32 @@ main img {
   content: '';
   display: block;
   width: 40px;
-  height: 4px;
-  margin: 16px 0;
+  height: 5px;
+  margin: 16px 0 0;
   background-color: var(--brand-yellow);
+}
+
+/* body-content headings/copy use a smaller, fixed scale, not the shared
+   h1-h6 scale sized for the hero — verified against the source: h2 is
+   26px everywhere in body content (default content, cards), h3 is 20px
+   in the columns headings, and paragraph copy is 14px throughout. */
+.default-content-wrapper > h2 {
+  margin-top: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.pr-columns h3 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.default-content-wrapper > p,
+.pr-columns p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 .icon {
@@ -344,7 +367,10 @@ main > .section {
 }
 
 main > .section > div {
-  max-width: 1200px;
+  /* matches the source's actual content column — verified directly
+     against several unrelated sections (default content, cards, teaser,
+     jump-nav), all measure exactly 1140px, not the boilerplate default */
+  max-width: 1140px;
   margin: auto;
   padding: 0 24px;
 }

@@ -1,10 +1,8 @@
 /* unlike the hero (genuinely full-bleed), the source keeps this teaser
-   within the page's normal content column (1140px) — it doesn't stretch
-   to the viewport edges */
-.pr-teaser-container .pr-teaser-wrapper {
-  max-width: 1140px;
-}
-
+   within the page's normal content column — it doesn't stretch to the
+   viewport edges. No wrapper override needed here (unlike pr-hero/
+   pr-jump-nav, which deliberately go full-bleed): the standard
+   `main > .section > div` max-width (1140px) already applies. */
 .pr-teaser {
   display: flex;
   flex-direction: column;
