@@ -1,13 +1,19 @@
-footer {
-  background-color: var(--brand-dark, #131313);
-  color: #fff;
-  font-size: var(--body-font-size-xs, 14px);
+/* ===== Progress Rail footer — light gray bg, dark nav text, blue legal
+   links. Verified directly against the source via getComputedStyle:
+   contrary to an earlier (wrong, unverified) assumption, this is NOT a
+   dark/white-text footer — background is a flat #ccc throughout, and
+   both the nav links and headings render in the page's own dark text
+   color, not white. */
+footer .footer {
+  background-color: #ccc;
+  color: var(--text-color);
+  font-size: 14px;
 }
 
 footer .footer > div {
   margin: auto;
   max-width: 1200px;
-  padding: 40px 24px 24px;
+  padding: 32px 24px;
 }
 
 footer .footer p {
@@ -16,90 +22,176 @@ footer .footer p {
 
 @media (width >= 900px) {
   footer .footer > div {
-    padding: 40px 32px 24px;
+    padding: 32px;
   }
 }
 
-/* ===== Progress Rail footer branding — dark bg, white uppercase nav ===== */
+/* links */
 footer a:any-link {
-  color: #fff;
+  color: var(--text-color);
   text-decoration: none;
 }
 
-footer a:any-link:hover {
-  color: var(--brand-yellow, #ffcd11);
+footer a:hover {
+  color: var(--brand-yellow-hover, #e6b800);
+  text-decoration: underline;
 }
 
-/* column headings — white, bold, uppercase */
-footer .footer h3 {
-  margin: 0 0 12px;
-  color: #fff;
+/* ===== nav columns — each category is a native <details>/<summary>
+   accordion (collapsible on mobile, forced open and non-interactive at
+   desktop via the media query below — matches the source, which does the
+   same rather than using a heading + always-visible list). ===== */
+footer .footer-nav .columns > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px 24px;
+}
+
+footer .footer-nav .columns > div > div {
+  min-width: 0;
+}
+
+footer .footer-nav details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16.8px 0;
+  list-style: none;
+  cursor: pointer;
   font-family: var(--heading-font-family);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
 
-footer .footer ul {
+footer .footer-nav details > summary::-webkit-details-marker {
+  display: none;
+}
+
+footer .footer-nav details > summary .icon-chevron {
+  flex: none;
+  height: 14px;
+  width: 14px;
+  transition: transform 0.2s ease;
+}
+
+footer .footer-nav details[open] > summary .icon-chevron {
+  transform: rotate(180deg);
+}
+
+footer .footer-nav ul {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 4px;
 }
 
-footer .footer li {
-  margin: 0 0 8px;
-  line-height: 1.4;
-}
-
-/* columns block → responsive grid of link columns */
-footer .columns > div {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px 24px;
-}
-
-footer .columns > div > div {
-  min-width: 0;
-}
-
-/* legal / copyright row (loose links in the default-content-wrapper) */
-footer .default-content-wrapper > p:last-child {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-  margin-top: 28px;
-  padding-top: 18px;
-  border-top: 1px solid rgb(255 255 255 / 20%);
-}
-
-footer .default-content-wrapper > p:last-child a:any-link {
-  position: relative;
-  color: rgb(255 255 255 / 85%);
-  font-size: 13px;
-}
-
-footer .default-content-wrapper > p:last-child a + a::before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 12px;
-  background-color: rgb(255 255 255 / 30%);
+footer .footer-nav li {
+  padding: 5.6px 0;
+  line-height: 1.6;
 }
 
 @media (width >= 600px) {
-  footer .columns > div {
+  footer .footer-nav .columns > div {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (width >= 900px) {
-  footer .columns > div {
-    grid-template-columns: repeat(6, 1fr);
-    gap: 32px 24px;
+  /* at desktop every category stays permanently expanded, so the chevron
+     (a mobile collapse affordance) and the click-to-toggle interaction
+     it represents are both switched off. */
+  footer .footer-nav details > summary {
+    cursor: default;
+    pointer-events: none;
   }
+
+  footer .footer-nav details > summary .icon-chevron {
+    display: none;
+  }
+}
+
+@media (width >= 1200px) {
+  footer .footer-nav .columns > div {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ===== social icon row — a second, icon-only rendering of the same
+   links as the nav's own "Social Media" column (verified against the
+   source: both exist side by side). ===== */
+footer .footer-social ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+}
+
+footer .footer-social .icon {
+  display: block;
+  height: 24px;
+  width: 24px;
+}
+
+footer .footer-social .icon svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+/* ===== legal / copyright row — a plain list, not a paragraph (the
+   source's own markup), with a literal "|" separator generated between
+   items rather than typed into the content, and its own blue link color
+   distinct from the rest of the footer's dark text. ===== */
+footer .footer-copyright ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+footer .footer-copyright li {
+  margin: 0;
+}
+
+footer .footer-copyright li:not(:first-child)::before {
+  content: '|';
+  margin: 0 8px;
+  color: #555;
+}
+
+footer .footer-copyright a,
+footer .footer-copyright button {
+  color: #2679b8;
+}
+
+/* the cookie-preference control is a <button>, not a link — strip its
+   native chrome so it reads identically to the links beside it */
+footer .footer-copyright button {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+footer .footer-copyright a:hover,
+footer .footer-copyright button:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
 }
